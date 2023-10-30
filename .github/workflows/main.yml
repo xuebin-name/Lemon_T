@@ -1,17 +1,14 @@
-- name: Cache
-  uses: actions/cache@v3.3.2
-  with:
-    # 要缓存和恢复的文件、目录和通配符模式的列表
-    path:
-    # 用于恢复和保存缓存的显式密钥
-    key:
-    # 如果密钥没有发生缓存命中，则用于恢复陈旧缓存的有序密钥列表。请注意，在这种情况下，“cache-hit”返回 false。
-    restore-key: # 可选
-    # 上传时用于分割大文件的块大小，以字节为单位
-    upload-chunk-size: # 可选
-    # 启用时可选的布尔值，允许 Windows 运行程序保存或恢复可以在其他平台上分别恢复或保存的缓存
-    enableCrossOsArchive: # 可选，默认为 false
-    # 如果未找到缓存条目，则工作流程失败
-    fail-on-cache-miss: # 可选，默认为 false
-    # 检查给定输入（key、restore-keys）是否存在缓存条目，而不下载缓存
-    Lookup-only: # 可选，默认为 false
+name: build-test-deploy
+on: push
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: use node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - run: npm install
+      - run: npm run build 
